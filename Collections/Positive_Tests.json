@@ -1,0 +1,391 @@
+{
+	"info": {
+		"_postman_id": "720b3df8-47b1-4db3-bd46-bc7a7545efc4",
+		"name": "PositiveTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7229339"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Json is returned.\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"pm.test(\"Response to be 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response body is not empty.\", function () {",
+							"    var res = (_.isEmpty(responseBody));",
+							"    pm.expect(res).to.be.false;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User by FirstName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Body contains the name \" + pm.variables.get(\"firstName\") + \" in results\", function () {",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get(\"firstName\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users/?name={{firstName}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{firstName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"New user created\", function() {",
+							"    pm.response.to.have.status(201);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var useEmail = \"test\" + pm.variables.replaceIn('{{$randomInt}}') + \"@test.com\";",
+							"",
+							"pm.environment.set(\"email\",useEmail);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{primaryToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"name\": \"Test\",\n \"gender\": \"male\",\n \"email\":\"{{email}}\",\n \"status\":\"active\"\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{primaryToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"name\": \"uTest\"\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/users/170196",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"170196"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response to be 204\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{primaryToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users/160216",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"160216"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ToDo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Json is returned.\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"pm.test(\"Response to be 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response body is not empty.\", function () {",
+							"    var res = (_.isEmpty(responseBody));",
+							"    pm.expect(res).to.be.false;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/todos",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ToDo by Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"pm.test(\"Response to be 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response body is not empty.\", function () {",
+							"    var res = (_.isEmpty(responseBody));",
+							"    pm.expect(res).to.be.false;",
+							"});",
+							"pm.test(\"Body contains the status \" + pm.variables.get(\"status\") + \" in results\", function () {",
+							"    pm.expect(pm.response.text()).to.include(pm.variables.get(\"status\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/todos/?status={{status}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"todos",
+						""
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "{{status}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Json is returned.\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"pm.test(\"Response to be 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"pm.test(\"Response body is not empty.\", function () {",
+							"    var res = (_.isEmpty(responseBody));",
+							"    pm.expect(res).to.be.false;",
+							"});",
+							"var jsonData = pm.response.json();",
+							"var name = pm.environment.get(\"name\");",
+							"pm.test(\"Comment Name is correct\", function () {",
+							"    pm.expect(jsonData.content).to.eql(name);",
+							"}); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/comments",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"comments"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "{{primaryToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

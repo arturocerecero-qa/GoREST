@@ -1,0 +1,17 @@
+{
+    "name": "GoREST",
+    "version": "1.0.0",
+    "description": "GoREST tests for ULTRA",
+    "main": "index.js",
+    "scripts": {
+        "positive-Tests": "npx newman run Collections/Positive_Tests.json -e Environment/TestEnv.json -r htmlextra --reporter-htmlextra-export Reports/report.html",
+        "negative-Tests": "npx newman run Collections/Negative_Tests.json -e Environment/TestEnv.json -r htmlextra --reporter-htmlextra-export Reports/report.html"
+    },
+    "author": "Arturo Cerecero",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "newman": "^5.3.2",
+        "newman-reporter-htmlextra": "^1.22.11"
+    }
+}
