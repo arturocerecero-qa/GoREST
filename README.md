@@ -21,11 +21,11 @@ API Tests Using Postman and Newman
 ### How to run the project
 
 ```console
-npm run positive-test
+npm run positive-Test
 ```
 or
 ```console
-npm run negative-test
+npm run negative-Test
 ```
 
 **Note:** Don't forget to install the node packages (``npm i``)
